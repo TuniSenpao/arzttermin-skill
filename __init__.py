@@ -49,9 +49,9 @@ def contains_datetime(utterance, lang='de-de'):
     return extract_datetime(utterance) is not None
 
 
-class ReminderSkill(MycroftSkill):
+class ArztterminSkill(MycroftSkill):
     def __init__(self):
-        super(ReminderSkill, self).__init__()
+        super(ArztterminSkill, self).__init__()
         self.notes = {}
         self.primed = False
 
@@ -433,4 +433,4 @@ class ReminderSkill(MycroftSkill):
 
 
 def create_skill():
-    return ReminderSkill()
+    return ArztterminSkill()
