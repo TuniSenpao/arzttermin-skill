@@ -231,7 +231,7 @@ class ReminderSkill(MycroftSkill):
 
         if reminder_time.hour in self.NIGHT_HOURS:
             self.speak_dialog('ItIsNight')
-            if not self.ask_yesno('AreYouSure') == 'yes':
+            if not self.ask_yesno('AreYouSure') == 'ja':
                 return  # Don't add if user cancels
 
         if reminder_time:  # A datetime was extracted
@@ -278,7 +278,7 @@ class ReminderSkill(MycroftSkill):
         self.speak_dialog('Ok')
 
     def response_is_affirmative(self, response):
-        return self.voc_match(response, 'yes', self.lang)
+        return self.voc_match(response, 'ja', self.lang)
 
     @intent_handler('Reminder.intent')
     def add_unspecified_reminder(self, msg=None):
@@ -329,7 +329,7 @@ class ReminderSkill(MycroftSkill):
             return
 
         answer = self.ask_yesno('ConfirmRemoveDay', data={'date': date_str})
-        if answer == 'yes':
+        if answer == 'ja':
             if 'reminders' in self.settings:
                 self.settings['reminders'] = [
                         r for r in self.settings['reminders']
@@ -413,7 +413,7 @@ class ReminderSkill(MycroftSkill):
     @intent_handler('ClearReminders.intent')
     def clear_all(self, message):
         """ Clear all reminders. """
-        if self.ask_yesno('ClearAll') == 'yes':
+        if self.ask_yesno('ClearAll') == 'ja':
             self.__cancel_active()
             self.settings['reminders'] = []
             self.speak_dialog('ClearedAll')
