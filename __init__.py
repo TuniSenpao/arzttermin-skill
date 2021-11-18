@@ -285,30 +285,33 @@ class ArztterminSkill(MycroftSkill):
         """Starts a dialog to add a reminder when no time was supplied."""
         # TODO: sollte vlt möglich sein dem Termin einen eigenen Namen zu geben bzw. Name des Arztes wird als Name genutzt
         reminder = 'arzttermin' 
-        """
-        if (msg.data['reminder'] is not None):
-            reminder = msg.data['reminder']
         
-        # Handle the case where padatious misses the time/date
-        if contains_datetime(msg.data['utterance']):
-            return self.add_new_reminder(msg)
-        """
-        response = self.get_response('ParticularTime', on_fail='time_missing', num_retries=5)
+        # Nach Uhrzeit fragen
+        time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5)
+        
         # Check if a time was in the response
-        dt, rest = extract_datetime(response) or (None, None)
-        if dt or self.response_is_affirmative(response):
+        dt, rest = extract_datetime(time)) or (None, None)
+        if dt or self.response_is_affirmative(time):
             if not dt:
                 # No time specified
-                response = self.get_response('SpecifyTime') or ''
-                dt, rest = extract_datetime(response) or None, None
+                time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5) or ''
+                dt, rest = extract_datetime(time) or None, None
                 if not dt:
                     self.speak_dialog('Fine')
                     return
-
-            self.__save_reminder_local(reminder, dt)
+            self.__save_reminder_local(time, dt)
         else:
             self.log.debug('put into general reminders')
             self.__save_unspecified_reminder(reminder)
+
+        date = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
+
+        name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
+
+        self.speak_dialog('confirm_arzttermin', data={
+                    'time' : time, 'date': date, 'name': name
+                })
+
 
     @intent_handler('DeleteReminderForDay.intent')
     def remove_reminders_for_day(self, msg=None):
