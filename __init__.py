@@ -288,11 +288,11 @@ class ReminderSkill(MycroftSkill):
         """
         if (msg.data['reminder'] is not None):
             reminder = msg.data['reminder']
-        """
+        
         # Handle the case where padatious misses the time/date
         if contains_datetime(msg.data['utterance']):
             return self.add_new_reminder(msg)
-
+        """
         response = self.get_response('ParticularTime')
         # Check if a time was in the response
         dt, rest = extract_datetime(response) or (None, None)
