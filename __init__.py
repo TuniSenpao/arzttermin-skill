@@ -298,18 +298,6 @@ class ReminderSkill(MycroftSkill):
             self.log.debug('put into general reminders')
             self.__save_unspecified_reminder(reminder)
 
-    @intent_handler('UnspecifiedReminderAt.intent')
-    def add_unnamed_reminder_at(self, msg=None):
-        """Handles the case where a time was given but no reminder name."""
-        utterance = msg.data['timedate']
-        reminder_time, _ = (extract_datetime(utterance, now_local(), self.lang,
-                                             default_time=DEFAULT_TIME) or
-                            (None, None))
-
-        response = self.get_response('AboutWhat')
-        if response and reminder_time:
-            self.__save_reminder_local(response, reminder_time)
-
     @intent_handler('DeleteReminderForDay.intent')
     def remove_reminders_for_day(self, msg=None):
         """Remove all reminders for the specified date."""
