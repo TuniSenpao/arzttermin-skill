@@ -215,7 +215,9 @@ class ReminderSkill(MycroftSkill):
     @intent_handler('ReminderAt.intent')
     def add_new_reminder(self, msg=None):
         """Handler for adding  a reminder with a name at a specific time."""
-        reminder = msg.data.get('reminder', None)
+        # TODO: Ein Name muss erfragt werden
+        # reminder = msg.data.get('reminder', None)
+        reminder = 'arzttermin'
         if reminder is None:
             return self.add_unnamed_reminder_at(msg)
 
@@ -236,6 +238,16 @@ class ReminderSkill(MycroftSkill):
             self.__save_reminder_local(reminder, reminder_time)
         else:
             self.speak_dialog('NoDateTime')
+
+    def add_unnamed_reminder_at(self, msg=None):
+        """Handles the case where a time was given but no reminder name."""
+        utterance = msg.data['timedate']
+        reminder_time, _ = (extract_datetime(utterance, now_local(), self.lang,
+                                             default_time=DEFAULT_TIME) or
+                            (None, None))
+        response = self.get_response('AboutWhat')
+        if response and reminder_time:
+            self.__save_reminder_local(response, reminder_time)
 
     def __save_reminder_local(self, reminder, reminder_time):
         """Speak verification and store the reminder."""
