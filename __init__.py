@@ -45,8 +45,7 @@ def is_tomorrow(d):
     return d.date() == now_local().date() + timedelta(days=1)
 
 
-# def contains_datetime(utterance, lang='en-us'):
-def contains_datetime(utterance, lang='de-de'):
+def contains_datetime(utterance, lang='en-us'):
     return extract_datetime(utterance) is not None
 
 
@@ -212,7 +211,8 @@ class ReminderSkill(MycroftSkill):
         reminder = re.sub(our_regex, your_word, reminder)
         return reminder
 
-    @intent_handler('ReminderAt.intent')
+    
+    #@intent_handler('ReminderAt.intent')
     def add_new_reminder(self, msg=None):
         """Handler for adding  a reminder with a name at a specific time."""
         # TODO: Ein Name muss erfragt werden
