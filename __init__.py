@@ -271,9 +271,12 @@ class ReminderSkill(MycroftSkill):
     @intent_handler('Reminder.intent')
     def add_unspecified_reminder(self, msg=None):
         """Starts a dialog to add a reminder when no time was supplied."""
+        # TODO: sollte vlt möglich sein dem Termin einen eigenen Namen zu geben bzw. Name des Arztes wird als Name genutzt
         reminder = 'arzttermin' 
+        """
         if (msg.data['reminder'] is not None):
             reminder = msg.data['reminder']
+        """
         # Handle the case where padatious misses the time/date
         if contains_datetime(msg.data['utterance']):
             return self.add_new_reminder(msg)
