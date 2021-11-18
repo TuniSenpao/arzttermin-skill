@@ -293,7 +293,7 @@ class ArztterminSkill(MycroftSkill):
         if contains_datetime(msg.data['utterance']):
             return self.add_new_reminder(msg)
         """
-        response = self.get_response('ParticularTime')
+        response = self.get_response('ParticularTime', on_fail='time_missing', num_retries=5)
         # Check if a time was in the response
         dt, rest = extract_datetime(response) or (None, None)
         if dt or self.response_is_affirmative(response):
