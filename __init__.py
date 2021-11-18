@@ -290,7 +290,7 @@ class ArztterminSkill(MycroftSkill):
         time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5)
         
         # Check if a time was in the response
-        dt, rest = extract_datetime(time)) or (None, None)
+        dt, rest = extract_datetime(time) or (None, None)
         if dt or self.response_is_affirmative(time):
             if not dt:
                 # No time specified
