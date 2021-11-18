@@ -45,7 +45,7 @@ def is_tomorrow(d):
     return d.date() == now_local().date() + timedelta(days=1)
 
 
-def contains_datetime(utterance, lang='en-us'):
+def contains_datetime(utterance, lang='de-de'):
     return extract_datetime(utterance) is not None
 
 
@@ -228,12 +228,12 @@ class ReminderSkill(MycroftSkill):
                                                 self.lang,
                                                 default_time=DEFAULT_TIME) or
                                (None, None))
-
+        """
         if reminder_time.hour in self.NIGHT_HOURS:
             self.speak_dialog('ItIsNight')
             if not self.ask_yesno('AreYouSure') == 'ja':
                 return  # Don't add if user cancels
-
+        """
         if reminder_time:  # A datetime was extracted
             self.__save_reminder_local(reminder, reminder_time)
         else:
