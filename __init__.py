@@ -45,7 +45,8 @@ def is_tomorrow(d):
     return d.date() == now_local().date() + timedelta(days=1)
 
 
-def contains_datetime(utterance, lang='en-us'):
+# def contains_datetime(utterance, lang='en-us'):
+def contains_datetime(utterance, lang='de-de'):
     return extract_datetime(utterance) is not None
 
 
@@ -270,7 +271,9 @@ class ReminderSkill(MycroftSkill):
     @intent_handler('Reminder.intent')
     def add_unspecified_reminder(self, msg=None):
         """Starts a dialog to add a reminder when no time was supplied."""
-        reminder = msg.data['reminder']
+        reminder = 'arzttermin' 
+        if (msg.data['reminder'] is not None):
+            reminder = msg.data['reminder']
         # Handle the case where padatious misses the time/date
         if contains_datetime(msg.data['utterance']):
             return self.add_new_reminder(msg)
