@@ -286,9 +286,8 @@ class ArztterminSkill(MycroftSkill):
         # TODO: sollte vlt möglich sein dem Termin einen eigenen Namen zu geben bzw. Name des Arztes wird als Name genutzt
         reminder = 'arzttermin' 
         
-        # Nach Uhrzeit fragen
+        # TIME:
         time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5)
-        
         # Check if a time was in the response
         dt, rest = extract_datetime(time) or (None, None)
         if dt or self.response_is_affirmative(time):
@@ -304,14 +303,21 @@ class ArztterminSkill(MycroftSkill):
             self.log.debug('put into general reminders')
             self.__save_unspecified_reminder(reminder)
 
-        date = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
 
+        # DATE:
+        #TODO: Validieren
+        # date = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
+        self.speak_dialog('which_date', expect_response=True)
+        # NAME:
+        #TODO: Validieren
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
 
-        self.speak_dialog('confirm_arzttermin', data={
-                    'time' : time, 'date': date, 'name': name
-                })
+        # self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
 
+    @intent_handler('which_date.intent')
+    def handle_date_request(self, msg=None):
+        date = self.msg.data('date')
+        self.speak_dialog('confirm_date', data={'date': date})
 
     @intent_handler('DeleteReminderForDay.intent')
     def remove_reminders_for_day(self, msg=None):
