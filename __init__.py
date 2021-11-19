@@ -301,7 +301,7 @@ class ArztterminSkill(MycroftSkill):
             self.__save_reminder_local(time, dt)
         else:
             self.log.debug('put into general reminders')
-            self.__save_unspecified_reminder(reminder)
+            # self.__save_unspecified_reminder(reminder)
 
 
         # DATE:
@@ -310,7 +310,7 @@ class ArztterminSkill(MycroftSkill):
         self.speak_dialog('which_date', expect_response=True)
         # NAME:
         #TODO: Validieren
-        name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
+        # name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
 
         # self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
 
