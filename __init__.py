@@ -298,7 +298,7 @@ class ArztterminSkill(MycroftSkill):
                 if not dt:
                     self.speak_dialog('Fine')
                     return
-            self.__save_reminder_local(time, dt)
+            # self.__save_reminder_local(time, dt)
         else:
             self.log.debug('put into general reminders')
             # self.__save_unspecified_reminder(reminder)
