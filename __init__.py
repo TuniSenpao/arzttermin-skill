@@ -288,10 +288,10 @@ class ArztterminSkill(MycroftSkill):
         
         
         # TIME:
-        time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10)
+        time_response = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10)
         # Check if a time was in the response
-        dt, rest = extract_datetime(time) or (None, None)
-        if dt or self.response_is_affirmative(time):
+        dt, rest = extract_datetime(time_response) or (None, None)
+        if dt or self.response_is_affirmative(time_response):
             if not dt:
                 # No time specified
                 time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10) or ''
@@ -303,7 +303,7 @@ class ArztterminSkill(MycroftSkill):
         else:
             self.log.debug('put into general reminders')
             # self.__save_unspecified_reminder(reminder)
-
+        self.speak_dialog(str(dt))
 
         # DATE:
         date = None
