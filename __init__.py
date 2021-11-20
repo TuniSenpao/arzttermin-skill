@@ -289,9 +289,9 @@ class ArztterminSkill(MycroftSkill):
         # TIME:
         time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5)
         # Check if a time was in the response
-        self.log.debug('TIME: ' + time)
+        self.log.debug('TIME: ' + str(time))
         dt, rest = extract_datetime(time) or (None, None)
-        self.log.debug('dt: ' + dt)
+        self.log.debug('dt: ' + str(dt))
         if dt or self.response_is_affirmative(time):
             if not dt:
                 # No time specified
@@ -310,11 +310,11 @@ class ArztterminSkill(MycroftSkill):
         # DATE:
         #TODO: Validieren
         date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
-        self.log.debug('DATE_RESPONSE: ' + date_response)
+        self.log.debug('DATE_RESPONSE: ' + str(date_response))
         date, _ = extract_datetime(date_response, lang=self.lang)
-        self.log.debug('DATE: ' + date)
+        self.log.debug('DATE: ' + str(date))
         date_str = self.date_str(date or now_local().date())
-        self.log.debug('DATE_STR: ' + date_str)
+        self.log.debug('DATE_STR: ' + str(date_str))
         self.speak_dialog('confirm_date', data={'date': date_str})
 
         # self.speak_dialog('which_date', expect_response=True)
