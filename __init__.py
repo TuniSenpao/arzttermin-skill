@@ -311,7 +311,7 @@ class ArztterminSkill(MycroftSkill):
         date = None
         date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=10)
         months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
-        days = ['erster', 'zweiter','dritter','3.','4.','5.','6.','7.','8.','9.','10.','11.','12.','13.','14.','15',
+        days = ['erster', 'ersten', 'zweiter','zweiten' ,'dritter', 'dritten','3.','4.','5.','6.','7.','8.','9.','10.','11.','12.','13.','14.','15',
                 '16.','17.','18.','19.','20.','21.','22.','23.','24.','25.','26.','27','28.','29.','30.','31.']
         day = [d for d in days if(d in date_response)]
         month = [m for m in months if(m in date_response)]
