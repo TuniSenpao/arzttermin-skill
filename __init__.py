@@ -317,7 +317,7 @@ class ArztterminSkill(MycroftSkill):
         month = [m for m in months if(m in date_response)]
 
         if (bool(day) and bool(month)):
-            date = day + ' ' + month
+            date = ''.join(day) + ' ' + ''.join(month)
             self.speak_dialog('confirm_date', data={'date': date})
         else:
             date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
