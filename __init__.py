@@ -286,7 +286,9 @@ class ArztterminSkill(MycroftSkill):
         # TODO: sollte vlt möglich sein dem Termin einen eigenen Namen zu geben bzw. Name des Arztes wird als Name genutzt
         reminder = 'arzttermin' 
         
+        
         # TIME:
+        """
         time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5)
         # Check if a time was in the response
         dt, rest = extract_datetime(time) or (None, None)
@@ -303,14 +305,29 @@ class ArztterminSkill(MycroftSkill):
             self.log.debug('put into general reminders')
             # self.__save_unspecified_reminder(reminder)
 
-
+        """
         # DATE:
         #TODO: Validieren
-        # date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
+        date = None
+        date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
+        months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
+        days = ['erster', 'zweiter','dritter','3.','4.','5.','6.','7.','8.','9.','10.','11.','12.','13.','14.','15',
+                '16.','17.','18.','19.','20.','21.','22.','23.','24.','25.','26.','27','28.','29.','30.','31.']
+        day = [d for d in days if(d in date_response)]
+        month = [m for m in months if(m in date_response)]
+
+        if (bool(day) and bool(month)):
+            date = day + ' ' + month
+            self.speak_dialog('confirm_date', data={'date': date})
+        else:
+            date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
+
+        """
         date, _ = extract_datetime(date_response, lang=self.lang)
         date_str = self.date_str(date or now_local().date())
+        
         self.speak_dialog('confirm_date', data={'date': date_str})
-
+        """
         # self.speak_dialog('which_date', expect_response=True)
         # NAME:
         #TODO: Validieren
