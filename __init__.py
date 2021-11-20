@@ -303,7 +303,8 @@ class ArztterminSkill(MycroftSkill):
         else:
             self.log.debug('put into general reminders')
             # self.__save_unspecified_reminder(reminder)
-        self.speak_dialog(str(dt))
+
+        time = datetime.strftime(dt, "%H:%M")
 
         # DATE:
         date = None
