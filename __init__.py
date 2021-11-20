@@ -334,14 +334,10 @@ class ArztterminSkill(MycroftSkill):
         # Finaler Dialog
         self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
 
-    @intent_handler('which_date.intent')
-    def handle_date_request(self, msg=None):
-        date = self.msg.data('date')
-        self.speak_dialog('confirm_date', data={'date': date})
-
+    """
     @intent_handler('DeleteReminderForDay.intent')
     def remove_reminders_for_day(self, msg=None):
-        """Remove all reminders for the specified date."""
+        # Remove all reminders for the specified date.
         if 'date' in msg.data:
             date, _ = extract_datetime(msg.data['date'], lang=self.lang)
         else:
@@ -363,10 +359,11 @@ class ArztterminSkill(MycroftSkill):
                 self.settings['reminders'] = [
                         r for r in self.settings['reminders']
                         if deserialize(r[1]).date() != date.date()]
+    
 
     @intent_handler('GetRemindersForDay.intent')
     def get_reminders_for_day(self, msg=None):
-        """ List all reminders for the specified date. """
+        #List all reminders for the specified date.
         if 'date' in msg.data:
             date, _ = extract_datetime(msg.data['date'], lang=self.lang)
         else:
@@ -385,7 +382,7 @@ class ArztterminSkill(MycroftSkill):
 
     @intent_handler('GetNextReminders.intent')
     def get_next_reminder(self, msg=None):
-        """ Get the first upcoming reminder. """
+        # Get the first upcoming reminder.
         if len(self.settings.get('reminders', [])) > 0:
             reminders = [(r[0], deserialize(r[1]))
                          for r in self.settings['reminders']]
@@ -408,7 +405,7 @@ class ArztterminSkill(MycroftSkill):
             self.speak_dialog('NoUpcoming')
 
     def __cancel_active(self):
-        """ Cancel all active reminders. """
+        # Cancel all active reminders.
         remove_list = []
         ret = len(self.cancellable) > 0  # there were reminders to cancel
         for c in self.cancellable:
@@ -420,8 +417,7 @@ class ArztterminSkill(MycroftSkill):
 
     @intent_handler('CancelActiveReminder.intent')
     def cancel_active(self, message):
-        """ Cancel a reminder that's been triggered (and is repeating every
-            2 minutes. """
+        #Cancel a reminder that's been triggered (and is repeating every 2 minutes.
         if self.__cancel_active():
             self.speak_dialog('ReminderCancelled')
         else:
@@ -429,7 +425,7 @@ class ArztterminSkill(MycroftSkill):
 
     @intent_handler('SnoozeReminder.intent')
     def snooze_active(self, message):
-        """ Snooze the triggered reminders for 15 minutes. """
+        #Snooze the triggered reminders for 15 minutes.
         remove_list = []
         for c in self.cancellable:
             if self.reschedule_by_name(c,
@@ -441,12 +437,12 @@ class ArztterminSkill(MycroftSkill):
 
     @intent_handler('ClearReminders.intent')
     def clear_all(self, message):
-        """ Clear all reminders. """
+        # Clear all reminders.
         if self.ask_yesno('ClearAll') == 'ja':
             self.__cancel_active()
             self.settings['reminders'] = []
             self.speak_dialog('ClearedAll')
-
+    """
     def stop(self, message=None):
         if self.__cancel_active():
             self.speak_dialog('ReminderCancelled')
