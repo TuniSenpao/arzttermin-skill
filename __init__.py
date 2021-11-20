@@ -288,14 +288,13 @@ class ArztterminSkill(MycroftSkill):
         
         
         # TIME:
-        """
-        time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5)
+        time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10)
         # Check if a time was in the response
         dt, rest = extract_datetime(time) or (None, None)
         if dt or self.response_is_affirmative(time):
             if not dt:
                 # No time specified
-                time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=5) or ''
+                time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10) or ''
                 dt, rest = extract_datetime(time) or None, None
                 if not dt:
                     self.speak_dialog('Fine')
@@ -305,9 +304,8 @@ class ArztterminSkill(MycroftSkill):
             self.log.debug('put into general reminders')
             # self.__save_unspecified_reminder(reminder)
 
-        """
+
         # DATE:
-        #TODO: Validieren
         date = None
         date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=10)
         months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
@@ -332,8 +330,8 @@ class ArztterminSkill(MycroftSkill):
         # NAME:
         #TODO: Validieren
         # name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
-
-        # self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
+        name = 'Testtermin'
+        self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
 
     @intent_handler('which_date.intent')
     def handle_date_request(self, msg=None):
