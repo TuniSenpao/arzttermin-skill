@@ -324,17 +324,14 @@ class ArztterminSkill(MycroftSkill):
             month = [m for m in months if(m in date_response)]
             date = day[-1] + '. ' + month[-1]
 
-        """
-        date, _ = extract_datetime(date_response, lang=self.lang)
-        date_str = self.date_str(date or now_local().date())
-        
-        self.speak_dialog('confirm_date', data={'date': date_str})
-        """
-        # self.speak_dialog('which_date', expect_response=True)
         # NAME:
         #TODO: Validieren
         # name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
-        name = 'Testtermin'
+        name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
+        name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('am', '').replace('mein', '').replace('arzttermin', '')
+
+        # TODO: Termine speichern?
+        # Finaler Dialog
         self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
 
     @intent_handler('which_date.intent')
