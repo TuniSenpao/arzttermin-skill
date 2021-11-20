@@ -307,10 +307,7 @@ class ArztterminSkill(MycroftSkill):
         # DATE:
         #TODO: Validieren
         date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=5)
-        if 'date' in date_response:
-            date, _ = extract_datetime(date_response['date'], lang=self.lang)
-        else:
-            date, _ = extract_datetime(date_response['utterance'], lang=self.lang)
+        date, _ = extract_datetime(date_response, lang=self.lang)
 
         date_str = self.date_str(date or now_local().date())
         self.speak_dialog('confirm_date', data={'date': date_str})
