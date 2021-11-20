@@ -322,7 +322,7 @@ class ArztterminSkill(MycroftSkill):
             date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=10)
             day = [d for d in days if(d in date_response)]
             month = [m for m in months if(m in date_response)]
-            date = day[-1] + ' ' + month[-1]
+            date = day[-1] + '. ' + month[-1]
 
         """
         date, _ = extract_datetime(date_response, lang=self.lang)
