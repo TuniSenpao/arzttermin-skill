@@ -327,7 +327,7 @@ class ArztterminSkill(MycroftSkill):
         # NAME:
         # name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
-        name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('am', '').replace('mein', '').replace('arzttermin', '')
+        name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '')
 
         # TODO: Termine speichern?
         # Finaler Dialog
@@ -352,14 +352,14 @@ class ArztterminSkill(MycroftSkill):
         time = datetime.strftime(dt, "%H:%M")
         if (name is None):
             name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
-            name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('am', '').replace('mein', '').replace('arzttermin', '')
+            name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '')
         if (date is None):
             date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=10)
             months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
             days = ['erster', 'ersten', 'zweiter','zweiten' ,'dritter', 'dritten','3','4','5','6','7','8','9','10','11','12','13','14','15',
                 '16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-            day = [d for d in days if(d in date_response)]
-            month = [m for m in months if(m in date_response)]
+            day = [d for d in days if(d in date_response.lower())]
+            month = [m for m in months if(m in date_response.lower())]
 
             if (bool(day) and bool(month)):
                 date = day[-1] + '. ' + month[-1]
