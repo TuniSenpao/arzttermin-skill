@@ -281,12 +281,7 @@ class ArztterminSkill(MycroftSkill):
         return self.voc_match(response, 'ja', self.lang)
 
     @intent_handler('Reminder.intent')
-    def add_unspecified_reminder(self, msg=None):
-        """Starts a dialog to add a reminder when no time was supplied."""
-        # TODO: sollte vlt möglich sein dem Termin einen eigenen Namen zu geben bzw. Name des Arztes wird als Name genutzt
-        reminder = 'arzttermin' 
-        
-        
+    def add_unspecified_reminder(self, msg=None):        
         # TIME:
         time_response = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10)
         # Check if a time was in the response
