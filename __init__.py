@@ -325,14 +325,49 @@ class ArztterminSkill(MycroftSkill):
             date = day[-1] + '. ' + month[-1]
 
         # NAME:
-        #TODO: Validieren
         # name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
         name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('am', '').replace('mein', '').replace('arzttermin', '')
 
         # TODO: Termine speichern?
         # Finaler Dialog
-        self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
+
+        if (time is None):
+            time_response = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10)
+            # Check if a time was in the response
+            dt, rest = extract_datetime(time_response) or (None, None)
+            if dt or self.response_is_affirmative(time_response):
+                if not dt:
+                    # No time specified
+                    time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10) or ''
+                    dt, rest = extract_datetime(time) or None, None
+                    if not dt:
+                        self.speak_dialog('Fine')
+                        return
+                # self.__save_reminder_local(time, dt)
+            else:
+                self.log.debug('put into general reminders')
+                # self.__save_unspecified_reminder(reminder)
+
+        time = datetime.strftime(dt, "%H:%M")
+        if (name is None):
+            name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
+            name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('am', '').replace('mein', '').replace('arzttermin', '')
+        if (date is None):
+            date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=10)
+            months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
+            days = ['erster', 'ersten', 'zweiter','zweiten' ,'dritter', 'dritten','3','4','5','6','7','8','9','10','11','12','13','14','15',
+                '16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
+            day = [d for d in days if(d in date_response)]
+            month = [m for m in months if(m in date_response)]
+
+            if (bool(day) and bool(month)):
+                date = day[-1] + '. ' + month[-1]
+        
+        if (time is None or date is None or name is None):
+            self.speak_dialog('confirm.without.variables')
+        else:
+            self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
 
     """
     @intent_handler('DeleteReminderForDay.intent')
