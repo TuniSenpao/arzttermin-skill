@@ -327,7 +327,7 @@ class ArztterminSkill(MycroftSkill):
         # NAME:
         # name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=5)
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
-        name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
+        name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
         # TODO: Termine speichern?
         # Finaler Dialog
 
@@ -351,7 +351,7 @@ class ArztterminSkill(MycroftSkill):
         time = datetime.strftime(dt, "%H:%M")
         if (name is None):
             name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
-            name = name.replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
+            name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
         if (date is None):
             date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=10)
             months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
