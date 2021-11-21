@@ -312,8 +312,8 @@ class ArztterminSkill(MycroftSkill):
         months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
         days = ['erster', 'ersten', 'zweiter','zweiten' ,'dritter', 'dritten','3','4','5','6','7','8','9','10','11','12','13','14','15',
                 '16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-        day = [d for d in days if(d in date_response)]
-        month = [m for m in months if(m in date_response)]
+        day = [d for d in days if(d in date_response.lower())]
+        month = [m for m in months if(m in date_response.lower())]
 
         if (bool(day) and bool(month)):
             date = day[-1] + '. ' + month[-1]
@@ -329,7 +329,7 @@ class ArztterminSkill(MycroftSkill):
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
         name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
         # TODO: Termine speichern?
-        # Finaler Dialog
+
 
         if (time is None):
             time_response = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=10)
@@ -348,7 +348,7 @@ class ArztterminSkill(MycroftSkill):
                 self.log.debug('put into general reminders')
                 # self.__save_unspecified_reminder(reminder)
 
-        time = datetime.strftime(dt, "%H:%M")
+            time = datetime.strftime(dt, "%H:%M")
         if (name is None):
             name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=10)
             name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
