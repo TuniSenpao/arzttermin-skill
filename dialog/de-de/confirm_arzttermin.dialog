@@ -1,1 +1,2 @@
-Alles klar, dein Arzttermin am {date} um {time} bei {name} wurde erstellt.
+Dein Arzttermin am {date} um {time} bei {name} wurde erstellt.
+Ich habe deinen (Termin|Arzttermin) für den {date} um {time} bei {name} gespeichert.
