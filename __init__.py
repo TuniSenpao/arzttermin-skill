@@ -12,34 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import re
-import time
-from os.path import dirname, join
 from datetime import datetime, timedelta
 from mycroft import MycroftSkill, intent_handler
-from mycroft.util.parse import extract_datetime, normalize
-from mycroft.util.time import now_local
-from mycroft.util.format import nice_time, nice_date
-from mycroft.util import play_wav
+from mycroft.util.parse import extract_datetime
 from mycroft.messagebus.client import MessageBusClient
 
 
 class ArztterminSkill(MycroftSkill):
     def __init__(self):
-        super(ArztterminSkill, self).__init__()
-        self.notes = {}
-        self.primed = False
-
-        self.cancellable = []  # list of reminders that can be cancelled
-        self.NIGHT_HOURS = [23, 0, 1, 2, 3, 4, 5, 6]
+        super(ArztterminSkill, self).__init__()        
 
     def initialize(self):
-        # Handlers for notifications after speak
-        # TODO Make this work better in test
+    
         if isinstance(self.bus, MessageBusClient):
-            self.bus.on('speak', self.prime)
-            self.bus.on('mycroft.skill.handler.complete', self.notify)
-            self.bus.on('mycroft.skill.handler.start', self.reset)
+            pass
 
         # Reminder checker event
 
